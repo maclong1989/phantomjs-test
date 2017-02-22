@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.UUID;
 
 import com.alibaba.fastjson.JSON;
 
@@ -20,7 +21,7 @@ public class App {
 
 		Runtime rt = Runtime.getRuntime();
 
-		String cmd = "D:/work/workspace18/phantomjs-test/bin/phantomjs.exe " + param.getJsFullName() + " "
+		String cmd = "D:/work/git/phantomjs/phantomjs-test/bin/phantomjs.exe " + param.getJsFullName() + " "
 				+ JSON.toJSONString(param).replaceAll(" ", "^@@^").replace("\"", "\"\"\"").replace("%", "%%");
 
 		System.out.println(cmd);
@@ -46,7 +47,7 @@ public class App {
 
 		try {
 
-			PjsParam.setJsPath("D:/work/workspace18/phantomjs-test/script");
+			PjsParam.setJsPath("D:/work/git/phantomjs/phantomjs-test/script");
 
 			PjsParam param = new PjsParam();
 
@@ -54,9 +55,10 @@ public class App {
 			param.getProxy().setHost("proxy.asiainfo.com");
 			param.getProxy().setPort("8080");
 
-			param.setUrl("http://www.sina.com/");
+			param.setUrl("https://y.qq.com/n/yqq/toplist/4.html");
 			param.setData(new Object());
 			param.setMethod("get");
+			param.setFileName("D:/tmp/" + UUID.randomUUID().toString() + ".html");
 
 			// param.getHeaders().put("Host", "www.sina.com.cn");
 			param.getHeaders().put("User-Agent",
@@ -64,14 +66,12 @@ public class App {
 			param.getHeaders().put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 			param.getHeaders().put("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
 			// param.getHeaders().put("Accept-Encoding", "deflate");
-			param.getHeaders()
-					.put("Referer",
-							"https://www.hao123.com/link/https/?key=http%3A%2F%2Fwww.sina.com.cn%2F&&c=138187F70F592C29629C23776B35024D");
+			param.getHeaders().put("Referer", "https://www.baidu.com");
 			param.getHeaders().put("Connection", "keep-alive");
 			// param.getHeaders().put("Host", "www.sina.com.cn");
 			// param.getHeaders().put("Host", "www.sina.com.cn");
 
-			param.setJsName("postjson");
+			param.setJsName("JsService");
 			// param.setJsName("simple");
 
 			String html = getAjaxCotnent(param);

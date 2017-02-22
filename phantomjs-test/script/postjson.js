@@ -2,6 +2,10 @@
 
 try{ 
 	
+	var system = require('system');
+	var fs = require('fs');
+	var page = require('webpage').create();
+	
 	phantom.onError = function(msg, trace) {
 		  var msgStack = ['PHANTOM ERROR: ' + msg];
 		  if (trace && trace.length) {
@@ -14,11 +18,8 @@ try{
 		  phantom.exit(1);
 	};
 	
-	
 	phantom.outputEncoding = "utf8";
 
-	var system = require('system');
-	
 	if (system.args.length === 1) {
 	    console.log('Try to pass some args when invoking this script!');
 	    phantom.exit(1);
@@ -30,9 +31,6 @@ try{
 	if(json.proxy.use){
 		phantom.setProxy(json.proxy.host, json.proxy.port, 'manual', '', '');;
 	}	
-	
-	var page = require('webpage').create();
-	
 
 	page.onError = function(msg, trace) {
 
@@ -46,37 +44,41 @@ try{
 		  }
 
 		  console.error(msgStack.join('\n'));
-
 	};
-
 
 	var server = json.url;
 	var data = JSON.stringify(json.data);
 	var headers = json.headers;
+	page.settings.userAgent = json.userAgent||'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0';
 	
-	page.open(server, json.method, data, headers, function (status) {
-		
-		try{
-			
-		    if (status !== 'success') {
-		        console.log('Unable to post!');
-		    } else {
-		    	console.log('fetch ok!');
-		        console.log(page.content);
-		    }
-		    
-		    phantom.exit();
-	    
-		}catch(e){
-			 console.log("error:" + e.message);
-			 phantom.exit(1);
-		}
-		
-		
-		
-	});
 	
 
+	
+	page.open(server, json.method, data, headers, function (status) {
+			
+//		    if (status !== 'success') {
+	//		        console.log('Unable to post!');
+	//		    } else {
+	//		    	
+	//		    	fs.write(json.fileName, page.content, 'w');
+	//		    	
+	//		    	console.log('fetch success!');
+	//		    }
+			
+				console.log('open!');
+				
+			if (status === "success") {
+					
+				fs.write(json.fileName, page.content, 'w');
+	
+				phantom.exit();	
+			
+			}else{
+				 console.log('Unable to post!');
+				 phantom.exit();
+			}
+	});
+	
 }catch(e){
 	 console.log("error:" + e.message);
 	 phantom.exit(1);

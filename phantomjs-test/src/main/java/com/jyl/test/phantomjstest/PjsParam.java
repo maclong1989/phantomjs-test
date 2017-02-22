@@ -19,6 +19,10 @@ public class PjsParam {
 
 	private String method;
 
+	private String userAgent;
+
+	private String fileName;
+
 	public String getUrl() {
 		return url;
 	}
@@ -77,6 +81,22 @@ public class PjsParam {
 
 	public void setMethod(String method) {
 		this.method = method;
+	}
+
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }
